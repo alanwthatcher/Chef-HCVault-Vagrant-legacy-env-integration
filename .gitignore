@@ -1,2 +1,4 @@
 *.swp
 /vagrant
+/nodes
+files/app1-nodes.json

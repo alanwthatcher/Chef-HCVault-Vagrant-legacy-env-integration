@@ -1,0 +1,16 @@
+# Move into vagrant directory and halt boxes
+echo
+echo "Shutdown and remove Vagrant configuration"
+
+echo
+echo "  + Move into vagrant directory"
+cd vagrant
+
+echo
+echo "  + Force halt of running boxes"
+vagrant halt -f
+
+echo
+echo "  + Remove all files: Vagrant file, .vagrant"
+rm -f Vagrantfile
+rm -rf .vagrant
