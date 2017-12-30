@@ -1,0 +1,33 @@
+{
+  "vault_addr": "http://127.0.0.1:8200",
+  "armaint_token": "approle-maintain-token-here",
+  "arstart_token": "app1-arstart-token-here",
+  "basedir": "base-dir-here",
+  "app1": {
+    "appname": "app1",
+    "vault_addr": "http://10.1.1.1:8200",
+    "vagrant_nodes": [
+      {
+        "node": "app1node1",
+        "domain": "mustach.io",
+        "role": "web",
+        "box": "bento/centos-7.4",
+        "ip": "10.1.1.70",
+        "policies": [
+          "app1-ro"
+        ] 
+      },
+      {
+        "node": "app1node2",
+        "domain": "mustach.io",
+        "role": "app",
+        "box": "bento/centos-7.4",
+        "ip": "10.1.1.71",
+        "policies": [
+          "app1-ro",
+	  "app1-secret1-rw"
+        ] 
+      }
+    ]
+  }
+}

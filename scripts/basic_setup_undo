@@ -1,0 +1,39 @@
+echo
+echo "===Undo some stuff in vault==="
+
+# Unmount app1
+echo
+echo "  + Unmount app1/"
+vault unmount app1
+
+echo
+echo "  + Delete policy approle-maintain"
+vault policy-delete approle-maintain
+
+echo
+echo "  + Delete app1node1 AppRole"
+vault delete auth/approle/role/app1node1.mustach.io
+
+echo
+echo "  + Delete app1node2 AppRole"
+vault delete auth/approle/role/app1node2.mustach.io
+
+echo
+echo "  + Delete policy app1-arstart"
+vault policy-delete app1-arstart
+
+echo
+echo "  + Delete policy app1-ro"
+vault policy-delete app1-ro
+
+echo
+echo "  + Delete policy app1-secret1-rw"
+vault policy-delete app1-secret1-rw
+
+echo
+echo "  + Reset files/vagrant_node.json"
+cp files/.app1-nodes.json.bak files/app1-nodes.json
+
+echo
+echo "  + Remove node files"
+rm -f nodes/*

@@ -1,0 +1,63 @@
+echo
+echo "=== Setup for Vault ==="
+echo
+
+# Mount app1 kv
+echo "  + Mount kv called app1, error ok if exists"
+vault mount -path=app1/ kv
+
+# Put some secrets in
+echo
+echo "  + Secerets setup"
+echo "    + Write app1/config secret"
+vault write app1/config @files/secrets/app1-config.json
+
+echo
+echo "    + Write app1/secret1 secret"
+vault write app1/secret1 @files/secrets/app1-secret1.json
+
+echo
+echo "    + Policy to read app1 secrets: app1-ro"
+vault policy-write app1-ro files/hcls/app1-ro.hcl
+
+echo
+echo "    + Policy to allow upate to app1/secret1: app1-secret1-rw"
+vault policy-write app1-secret1-rw files/hcls/app1-secret1-rw.hcl
+
+# Enable AppRole
+echo
+echo "  + AppRole setup"
+echo "    + Enable approle, error ok if already enabled"
+vault auth-enable approle 
+
+# Policy for creating AppRoles
+echo
+echo "    + Policy for AppRole create/update: approle-maintain"
+vault policy-write approle-maintain files/hcls/approle-maintain.hcl
+
+# Token for approle-maintain policy
+echo
+echo "    + Create token for approle-maintain. Will be placed in files/app1-nodes.json"
+armaint=$(vault token-create -policy=approle-maintain | grep -w token | cut -f2)
+sed -i '' "s/approle-maintain-token-here/${armaint}/g" files/app1-nodes.json
+echo ${armaint}
+
+# Policy for starting AppRole authentication for App1 nodes
+echo
+echo "  + Create policy for starting AppRole authentication for app1 nodes"
+vault policy-write app1-arstart files/hcls/app1-arstart.hcl
+
+# Create token for app1-arstart policy
+echo
+echo "  + Create token for app1-arstart policy.  Will be placed in files/app1-nodes.json"
+arstart=$(vault token-create -policy=app1-arstart | grep -w token | cut -f2)
+sed -i '' "s/app1-arstart-token-here/${arstart}/g" files/app1-nodes.json
+echo ${arstart}
+
+# Set working directory for cookbook
+echo
+echo "    + Place working directory into files/app1-nodes.json"
+workdir=$(pwd | sed 's/\//\\\//g')
+sed -i '' "s/base-dir-here/${workdir}/g" files/app1-nodes.json
+echo $(pwd)
+

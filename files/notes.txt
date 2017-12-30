@@ -1,0 +1,19 @@
+# Create a Chef node that has a proper AppRole
+1. Define node in JSON
+2. Create Vagrant file
+3. Create AppRole
+4. Start vagrant server
+5. Register to Chef Server
+
+# Define node in JSON
+
+# Create Vagrant file
+
+# Create AppRole
+approle-maintain policy :: list,update
+acl :: AppRole :: approle-maintain
+AppRole initiator :: approle-maintain-arstart :: fa71de66-fb81-8f1e-8e60-d5ed70e5b284
+
+# Start vagrant server
+
+# Register to Chef Server
