@@ -40,7 +40,7 @@ action :read do
   node.run_state[new_resource.destination] = new_resource.data_only ? secret.data : secret
 
   # Fire notification
-  updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
 end
 
 action :read_multi do
@@ -79,7 +79,7 @@ action :read_multi do
   node.run_state[new_resource.destination] = secrets
 
   # Fire notifications
-  updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
 end
 
 action :transit_decrypt do
@@ -96,7 +96,7 @@ action :transit_decrypt do
   node.run_state[new_resource.destination] = Base64.decode64(decrypted.data[:plaintext])
 
   # Fire notification
-  updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
 end
 
 action :write do
@@ -125,5 +125,5 @@ action :write do
   Vault.logical.write(new_resource.path, new_resource.payload)
 
   # Fire notification
-  updated_by_last_action(true)
+  new_resource.updated_by_last_action(true)
 end

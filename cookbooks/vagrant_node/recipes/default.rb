@@ -7,6 +7,8 @@
 # Shortcut to application settings
 as = node[:app1]
 
+directory "#{node['basedir']}/vagrant"
+
 template "#{node['basedir']}/vagrant/Vagrantfile" do
   source 'Vagrant.erb'
   variables vnodes: as['vagrant_nodes']
