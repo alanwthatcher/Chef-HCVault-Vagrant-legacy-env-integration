@@ -45,7 +45,7 @@ Usage it it's most basic form is on this wise:
     * Creates a policy, `approle-maintain`, and token specifically for creating AppRoles
     * Creates a policy, `app1-arstart`, and token which can start the AppRole authentication for the app1node1 and app1node2 Vagrant boxes
     * Updates the current working directory in the config file, assumes everything will work out of that
-4. From the root of the repo, run `chef-client -z -o vagrant_node -f files/app1-nodes.json` which will:
+4. From the root of the repo, run `chef-client -z -o vagrant_node -j files/app1-nodes.json` which will:
     * Creates Vagrantfile
       * Two boxes: app1node1.mustach.io and app1node2.mustach.io
         * app1node1 is a web server
